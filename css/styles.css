@@ -675,3 +675,22 @@ body:not(.pronto) .metrica, body:not(.pronto) .hero__cartao { opacity: 0; }
   .hero__titulo { font-size: clamp(2rem, 8.6vw, 2.7rem); }
   .hero__texto { min-width: 0; }
 }
+
+/* ---------- antes e depois (logo após o hero) ---------- */
+.ad { background: var(--deep); padding-block: clamp(56px, 7vw, 96px); border-top: 1px solid var(--linha); }
+.ad__topo { display: flex; align-items: end; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: var(--space-6); }
+.ad__topo .titulo { margin-bottom: 0; }
+.ad__grade { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.ad__card { margin: 0; padding: 14px; border-radius: var(--raio-g); background: var(--painel); border: 1px solid var(--linha); }
+.ad__par { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ad__par figure { position: relative; margin: 0; }
+.ad__par img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 15%; border-radius: 16px; }
+.ad__selo { position: absolute; left: 10px; top: 10px; padding: 6px 12px; border-radius: var(--pilula); background: rgba(5, 13, 28, .85); color: var(--txt); font: 700 .74rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+.ad__selo--depois { background: var(--limao); color: var(--deep); }
+.ad__legenda { margin: 14px 6px 4px; font-size: 1rem; color: var(--txt-2); }
+.ad__nota { margin: 18px 0 0; font-size: .9rem; color: var(--txt-2); }
+@media (max-width: 760px) {
+  .ad__grade { grid-template-columns: 1fr; }
+  .ad__topo .btn { width: 100%; }
+}
+.ad__par img.ad__img--corpo { object-position: 50% 42%; }
