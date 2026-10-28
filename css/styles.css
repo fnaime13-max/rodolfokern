@@ -694,3 +694,10 @@ body:not(.pronto) .metrica, body:not(.pronto) .hero__cartao { opacity: 0; }
   .ad__topo .btn { width: 100%; }
 }
 .ad__par img.ad__img--corpo { object-position: 50% 42%; }
+.ad__card--largo { grid-column: 1 / -1; }
+.ad__par--3 { grid-template-columns: repeat(3, 1fr); }
+.ad__par--3 img { aspect-ratio: 3 / 4; }
+@media (max-width: 760px) {
+  .ad__par--3 img { aspect-ratio: 3 / 4.4; }
+  .ad__par--3 { gap: 6px; }
+}
