@@ -307,6 +307,38 @@
     if (moveu) trilho.scrollTo({ left: Math.round(trilho.scrollLeft / passoSlide()) * passoSlide(), behavior: 'smooth' });
   });
 
+  /* ---------- antes e depois: trilho com setas e arraste ---------- */
+  (function () {
+    var t = $('#adTrilho');
+    if (!t) return;
+    var a = $('#adAnt'), p = $('#adProx');
+    var passo = function () { var c = $('.ad__card:not(.ad__card--destaque)', t); return c ? c.offsetWidth + 18 : 300; };
+    var setasAd = function () {
+      a.disabled = t.scrollLeft < 8;
+      p.disabled = t.scrollLeft > t.scrollWidth - t.clientWidth - 8;
+    };
+    a.addEventListener('click', function () { t.scrollBy({ left: -passo(), behavior: 'smooth' }); });
+    p.addEventListener('click', function () { t.scrollBy({ left: passo(), behavior: 'smooth' }); });
+    t.addEventListener('scroll', setasAd, { passive: true });
+    setasAd();
+    var d = null;
+    t.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse') return;
+      d = { x: e.clientX, s: t.scrollLeft, moveu: false };
+    });
+    addEventListener('pointermove', function (e) {
+      if (!d) return;
+      var dx = e.clientX - d.x;
+      if (Math.abs(dx) > 4) { d.moveu = true; t.classList.add('arrastando'); }
+      t.scrollLeft = d.s - dx;
+    });
+    addEventListener('pointerup', function () {
+      if (!d) return;
+      d = null;
+      t.classList.remove('arrastando');
+    });
+  })();
+
   /* ---------- revelar no scroll ---------- */
   if (!reduz && 'IntersectionObserver' in window) {
     var alvos = $$('.secao .titulo, .lead, .dor, .custo__grade li, .custo__virada, .modo__intro > *, .modo__lista, .incluso__lista li, .plano-card, .perfil__col, .esp__abas, .esp__paineis, .slides, .sobre__fotos, .sobre__txt > *, .duvidas__intro > *, .faq details, .final__grade > *');

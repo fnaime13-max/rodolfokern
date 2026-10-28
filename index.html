@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
 <link rel="preload" as="image" href="assets/img/rodolfo-hero.webp" type="image/webp">
-<link rel="stylesheet" href="css/styles.css?v=20261027o">
+<link rel="stylesheet" href="css/styles.css?v=20261027r">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
 {"@type":"Person","@id":"#rodolfo","name":"Rodolfo Kern","jobTitle":"Nutricionista","identifier":"CRN-9 36312","image":"https://rodolfokern.felixdias.com/assets/img/rodolfo-hero.webp","knowsAbout":["Emagrecimento","Definição muscular","Nutrição esportiva"],"sameAs":["https://www.instagram.com/nutri_rodolfokern/"]},
@@ -138,39 +138,106 @@
 
 <!-- ANTES E DEPOIS: incluído por decisão do cliente (ver PENDENCIAS.md, risco CFN 856/2026 Art. 69) -->
 <section class="ad" id="antes-depois" aria-labelledby="ad-t">
-  <div class="contido">
-    <div class="ad__topo">
-      <div>
-        <p class="eyebrow">Antes e depois</p>
-        <h2 id="ad-t" class="titulo">Transformação <span class="grad">que dá para ver.</span></h2>
-      </div>
-      <a class="btn btn--ciano btn--g" href="#plano" data-abre-plano>Quero começar a minha</a>
+  <div class="contido ad__topo">
+    <div>
+      <p class="eyebrow">Antes e depois · mudando vidas</p>
+      <h2 id="ad-t" class="titulo">Transformações <span class="grad">de pacientes reais.</span></h2>
     </div>
-    <div class="ad__grade">
-      <article class="ad__card ad__card--largo">
-        <div class="ad__par ad__par--3">
-          <figure><img src="assets/img/ad-rodolfo-antes.webp" width="600" height="1432" loading="eager" alt="Rodolfo Kern antes da transformação" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo">Antes</figcaption></figure>
-          <figure><img class="ad__img--corpo" src="assets/img/ad-rodolfo-depois.webp" width="600" height="1432" loading="eager" alt="Rodolfo Kern depois da transformação" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo ad__selo--depois">Depois</figcaption></figure>
-          <figure><img src="assets/img/ad-rodolfo2-depois.webp" width="600" height="1067" loading="eager" alt="Rodolfo Kern hoje, na academia" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo ad__selo--depois">Hoje</figcaption></figure>
-        </div>
-        <p class="ad__legenda"><b>Rodolfo Kern</b> · a própria transformação, mantida até hoje</p>
-      </article>
-      <article class="ad__card">
-        <div class="ad__par">
-          <figure><img src="assets/img/ad-paciente1-antes.webp" width="600" height="737" loading="eager" alt="Paciente antes do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo">Antes</figcaption></figure>
-          <figure><img src="assets/img/ad-paciente1-depois.webp" width="600" height="735" loading="eager" alt="Paciente depois do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo ad__selo--depois">Depois</figcaption></figure>
-        </div>
-        <p class="ad__legenda"><b>Paciente</b> · programa de acompanhamento</p>
-      </article>
-      <article class="ad__card">
-        <div class="ad__par">
-          <figure><img src="assets/img/ad-paciente2-antes.webp" width="600" height="503" loading="lazy" alt="Paciente antes do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo">Antes</figcaption></figure>
-          <figure><img src="assets/img/ad-paciente2-depois.webp" width="600" height="502" loading="lazy" alt="Paciente depois do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo ad__selo--depois">Depois</figcaption></figure>
-        </div>
-        <p class="ad__legenda"><b>Paciente</b> · programa de acompanhamento</p>
-      </article>
+    <div class="ad__acoes">
+      <button class="seta seta--escura" id="adAnt" aria-label="Transformação anterior"><svg aria-hidden="true"><use href="#i-seta"/></svg></button>
+      <button class="seta seta--escura" id="adProx" aria-label="Próxima transformação"><svg aria-hidden="true"><use href="#i-seta"/></svg></button>
     </div>
-    <p class="ad__nota">Resultados individuais variam de pessoa para pessoa. Imagens publicadas no Instagram @nutri_rodolfokern.</p>
+  </div>
+  <ul class="ad__trilho" id="adTrilho" aria-label="Transformações de pacientes">
+      <li class="ad__card ad__card--destaque ad__card--um">
+        <div class="ad__bloco"><p class="ad__rot">Costas</p>
+        <div class="ad__par">
+          <figure><img src="assets/img/resultados/destaque-costas-antes.webp" width="600" height="904" loading="eager" alt="Paciente antes do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo">Antes</figcaption></figure>
+          <figure><img src="assets/img/resultados/destaque-costas-depois.webp" width="600" height="1166" loading="eager" alt="Paciente depois do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo ad__selo--depois">Depois</figcaption></figure>
+        </div></div>
+        <p class="ad__legenda">Destaque · transformação completa</p>
+      </li>
+      <li class="ad__card">
+        <div class="ad__par">
+          <figure><img src="assets/img/resultados/caso01-antes.webp" width="600" height="939" loading="eager" alt="Paciente antes do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo">Antes</figcaption></figure>
+          <figure><img src="assets/img/resultados/caso01-depois.webp" width="600" height="1338" loading="eager" alt="Paciente depois do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo ad__selo--depois">Depois</figcaption></figure>
+        </div>
+        <p class="ad__legenda">Emagrecimento</p>
+      </li>
+      <li class="ad__card">
+        <div class="ad__par">
+          <figure><img src="assets/img/resultados/caso02-antes.webp" width="600" height="974" loading="eager" alt="Paciente antes do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo">Antes</figcaption></figure>
+          <figure><img src="assets/img/resultados/caso02-depois.webp" width="600" height="965" loading="eager" alt="Paciente depois do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo ad__selo--depois">Depois</figcaption></figure>
+        </div>
+        <p class="ad__legenda">Emagrecimento</p>
+      </li>
+      <li class="ad__card">
+        <div class="ad__par">
+          <figure><img src="assets/img/resultados/caso05-antes.webp" width="600" height="1324" loading="lazy" alt="Paciente antes do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo">Antes</figcaption></figure>
+          <figure><img src="assets/img/resultados/caso05-depois.webp" width="600" height="1176" loading="lazy" alt="Paciente depois do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo ad__selo--depois">Depois</figcaption></figure>
+        </div>
+        <p class="ad__legenda">Perda de gordura e ganho de massa</p>
+      </li>
+      <li class="ad__card">
+        <div class="ad__par">
+          <figure><img src="assets/img/resultados/caso11-antes.webp" width="600" height="1291" loading="lazy" alt="Paciente antes do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo">Antes</figcaption></figure>
+          <figure><img src="assets/img/resultados/caso11-depois.webp" width="600" height="1685" loading="lazy" alt="Paciente depois do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo ad__selo--depois">Depois</figcaption></figure>
+        </div>
+        <p class="ad__legenda">Ganho de massa após canetas</p>
+      </li>
+      <li class="ad__card">
+        <div class="ad__par">
+          <figure><img src="assets/img/resultados/caso09-antes.webp" width="600" height="1868" loading="lazy" alt="Paciente antes do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo">Antes</figcaption></figure>
+          <figure><img src="assets/img/resultados/caso09-depois.webp" width="600" height="1838" loading="lazy" alt="Paciente depois do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo ad__selo--depois">Depois</figcaption></figure>
+        </div>
+        <p class="ad__legenda">Emagrecimento</p>
+      </li>
+      <li class="ad__card">
+        <div class="ad__par">
+          <figure><img src="assets/img/resultados/caso07-antes.webp" width="600" height="1733" loading="lazy" alt="Paciente antes do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo">Antes</figcaption></figure>
+          <figure><img src="assets/img/resultados/caso07-depois.webp" width="600" height="1649" loading="lazy" alt="Paciente depois do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo ad__selo--depois">Depois</figcaption></figure>
+        </div>
+        <p class="ad__legenda">Definição</p>
+      </li>
+      <li class="ad__card">
+        <div class="ad__par">
+          <figure><img src="assets/img/resultados/caso08-antes.webp" width="600" height="1249" loading="lazy" alt="Paciente antes do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo">Antes</figcaption></figure>
+          <figure><img src="assets/img/resultados/caso08-depois.webp" width="600" height="1534" loading="lazy" alt="Paciente depois do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo ad__selo--depois">Depois</figcaption></figure>
+        </div>
+        <p class="ad__legenda">Emagrecimento e ganho de massa</p>
+      </li>
+      <li class="ad__card">
+        <div class="ad__par">
+          <figure><img src="assets/img/resultados/caso10-antes.webp" width="600" height="1074" loading="lazy" alt="Paciente antes do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo">Antes</figcaption></figure>
+          <figure><img src="assets/img/resultados/caso10-depois.webp" width="600" height="1037" loading="lazy" alt="Paciente depois do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo ad__selo--depois">Depois</figcaption></figure>
+        </div>
+        <p class="ad__legenda">Emagrecimento</p>
+      </li>
+      <li class="ad__card">
+        <div class="ad__par">
+          <figure><img src="assets/img/resultados/caso04-antes.webp" width="600" height="1633" loading="lazy" alt="Paciente antes do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo">Antes</figcaption></figure>
+          <figure><img src="assets/img/resultados/caso04-depois.webp" width="600" height="1654" loading="lazy" alt="Paciente depois do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo ad__selo--depois">Depois</figcaption></figure>
+        </div>
+        <p class="ad__legenda">Emagrecimento e saúde</p>
+      </li>
+      <li class="ad__card">
+        <div class="ad__par">
+          <figure><img src="assets/img/resultados/caso06-antes.webp" width="600" height="977" loading="lazy" alt="Paciente antes do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo">Antes</figcaption></figure>
+          <figure><img src="assets/img/resultados/caso06-depois.webp" width="600" height="982" loading="lazy" alt="Paciente depois do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo ad__selo--depois">Depois</figcaption></figure>
+        </div>
+        <p class="ad__legenda">Menos inchaço e retenção</p>
+      </li>
+      <li class="ad__card">
+        <div class="ad__par">
+          <figure><img src="assets/img/resultados/caso03-antes.webp" width="600" height="1352" loading="lazy" alt="Paciente antes do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo">Antes</figcaption></figure>
+          <figure><img src="assets/img/resultados/caso03-depois.webp" width="600" height="1331" loading="lazy" alt="Paciente depois do acompanhamento" onerror="this.closest('figure').classList.add('sem-foto')"><figcaption class="ad__selo ad__selo--depois">Depois</figcaption></figure>
+        </div>
+        <p class="ad__legenda">Recomposição corporal</p>
+      </li>
+  </ul>
+  <div class="contido ad__rodape">
+    <p class="ad__nota">Resultados individuais variam de pessoa para pessoa. Imagens compartilhadas no Instagram @nutri_rodolfokern.</p>
+    <a class="btn btn--ciano btn--g" href="#plano" data-abre-plano>Quero começar a minha transformação</a>
   </div>
 </section>
 
@@ -614,7 +681,7 @@
   <svg aria-hidden="true"><use href="#i-whats"/></svg><span>Falar no WhatsApp</span>
 </a>
 
-<script src="js/config.js?v=20261027o"></script>
-<script src="js/main.js?v=20261027o"></script>
+<script src="js/config.js?v=20261027r"></script>
+<script src="js/main.js?v=20261027r"></script>
 </body>
 </html>
