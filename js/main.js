@@ -21,16 +21,18 @@
   var hoje = new Date();
   var mes = meses[(hoje.getMonth() + (hoje.getDate() >= CONFIG.viraMesNoDia ? 1 : 0)) % 12];
   var vagas = CONFIG.vagasRestantes;
+  var plural = function (n) { return n + (n === 1 ? ' vaga' : ' vagas'); };
   $$('[data-mes]').forEach(function (el) { el.textContent = mes; });
   $$('[data-vagas]').forEach(function (el) {
-    el.textContent = vagas ? 'Restam ' + vagas + (vagas === 1 ? ' vaga' : ' vagas') + ' para ' + mes : 'Vagas limitadas para ' + mes;
+    el.textContent = vagas ? 'Restam ' + plural(vagas) + ' para ' + mes : 'Vagas limitadas para ' + mes;
   });
   $$('[data-vagas-curto]').forEach(function (el) {
-    el.textContent = vagas ? 'Agenda de ' + mes + ': restam ' + vagas + (vagas === 1 ? ' vaga' : ' vagas') : 'Agenda de ' + mes + ' com vagas limitadas';
+    el.textContent = vagas ? 'Agenda de ' + mes + ' · restam ' + plural(vagas) : 'Agenda de ' + mes + ' · vagas limitadas';
   });
 
-  /* ---------- abertura: carrega, o dedo liga o botão, o botão se abre no site ---------- */
-  var ab = $('#abertura'), pct = $('#pct'), rotulo = $('#rotulo');
+  /* ---------- abertura: o anel carrega até 100%, vira "meta batida" e se abre no site ---------- */
+  var ab = $('#abertura'), pct = $('#pct'), rotulo = $('#rotulo'), ponto = $('#abPonto');
+  var segs = $$('.abertura__seg span', ab);
   var acabou = false, pulou = false;
 
   function liberar() {
@@ -42,8 +44,17 @@
     dispatchEvent(new Event('scroll'));
   }
 
+  function carga(k) {
+    ab.style.setProperty('--carga', k.toFixed(4));
+    var ang = (-90 + 360 * k) * Math.PI / 180;
+    ponto.setAttribute('cx', (60 + 38 * Math.cos(ang)).toFixed(2));
+    ponto.setAttribute('cy', (60 + 38 * Math.sin(ang)).toFixed(2));
+    pct.textContent = Math.round(k * 100);
+    segs.forEach(function (s, i) { s.classList.toggle('on', k >= (i + 1) / segs.length - .001); });
+  }
+
   function abrir() {
-    var b = $('.ab-miolo', ab).getBoundingClientRect();
+    var b = $('#abIcone').getBoundingClientRect();
     ab.style.setProperty('--mx', (b.left + b.width / 2) + 'px');
     ab.style.setProperty('--my', (b.top + b.height / 2) + 'px');
     var max = Math.hypot(innerWidth, innerHeight), ini = performance.now(), dur = 950;
@@ -51,47 +62,40 @@
     (function passo(t) {
       var k = Math.min(1, (t - ini) / dur);
       var e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
-      ab.style.setProperty('--r', (b.width / 2 + e * max) + 'px');
+      ab.style.setProperty('--r', (e * max) + 'px');
       if (k < 1) requestAnimationFrame(passo); else liberar();
     })(ini);
   }
 
-  function ligar() {
-    pct.textContent = '100';
-    ab.style.setProperty('--carga', 1);
-    ab.classList.add('toque');
-    setTimeout(function () {
-      ab.classList.add('ligado');
-      rotulo.textContent = 'Modo ativado';
-      setTimeout(abrir, pulou ? 450 : 1150);
-    }, pulou ? 250 : 560);
+  function metaBatida() {
+    carga(1);
+    ab.classList.add('meta');
+    rotulo.textContent = 'Meta batida · 100%';
+    setTimeout(abrir, pulou ? 400 : 1000);
   }
 
   if (reduz) {
     liberar();
   } else {
-    var ini = performance.now(), dur = 2300;
+    var ini = performance.now(), dur = 2400;
     (function contar(t) {
       if (pulou) return;
       var k = Math.min(1, (t - ini) / dur);
-      var e = 1 - Math.pow(1 - k, 2.2);
-      pct.textContent = Math.round(e * 100);
-      ab.style.setProperty('--carga', e.toFixed(3));
-      if (k < 1) requestAnimationFrame(contar); else ligar();
+      carga(k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2);
+      if (k < 1) requestAnimationFrame(contar); else metaBatida();
     })(ini);
     ab.addEventListener('click', function () {
-      if (pulou || ab.classList.contains('toque')) return;
-      pulou = true; ligar();
+      if (pulou || ab.classList.contains('meta')) return;
+      pulou = true; metaBatida();
     });
     addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && !acabou && !pulou && !ab.classList.contains('toque')) { pulou = true; ligar(); }
+      if (e.key === 'Escape' && !acabou && !pulou && !ab.classList.contains('meta')) { pulou = true; metaBatida(); }
     });
     setTimeout(liberar, 8000); // garantia
   }
 
   /* ---------- navegação ---------- */
   var nav = $('#nav'), burger = $('#burger'), menu = $('#menu');
-  var escuras = $$('.plano, .custo, .esp, .final, .rodape');
   burger.addEventListener('click', function () {
     var aberto = burger.getAttribute('aria-expanded') !== 'true';
     burger.setAttribute('aria-expanded', aberto);
@@ -104,62 +108,58 @@
   addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && nav.classList.contains('aberto')) { burger.click(); burger.focus(); }
   });
-
   var linksMenu = $$('.nav__menu a:not(.nav__cta)');
   var secoes = linksMenu.map(function (a) { return $(a.getAttribute('href')); });
 
-  /* ---------- bateria da página ---------- */
-  var bat = $('#batPagina'), batN = $('#batN'), fimPag = $('#agendar');
-  var ultimoPct = -1;
-
+  /* ---------- anel de progresso da página ---------- */
+  var prog = $('#progPagina'), progAnel = $('#progAnel'), progN = $('#progN'), fimPag = $('#agendar');
+  var ultimo = -1;
   function rolagem() {
     var y = scrollY;
     nav.classList.toggle('rolou', y > 30);
-    var linhaNav = y + 90, escuro = false;
-    escuras.forEach(function (s) { if (linhaNav >= s.offsetTop && linhaNav < s.offsetTop + s.offsetHeight) escuro = true; });
-    nav.classList.toggle('escuro', escuro && y > 30);
-
     var atual = -1;
     secoes.forEach(function (s, i) { if (s && y + innerHeight * .4 >= s.offsetTop) atual = i; });
     linksMenu.forEach(function (a, i) { if (i === atual) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
 
-    var fim = fimPag.offsetTop - innerHeight * .4;
-    var n = Math.round(Math.max(0, Math.min(1, y / fim)) * 20) * 5;
-    if (n !== ultimoPct) {
-      ultimoPct = n;
-      bat.style.setProperty('--lvl', n / 100);
-      batN.textContent = n + '%';
-      bat.setAttribute('aria-label', 'Página ' + n + '% carregada. Ir para o final');
-      bat.classList.toggle('cheia', n === 100);
+    var n = Math.round(Math.max(0, Math.min(1, y / (fimPag.offsetTop - innerHeight * .4))) * 20) * 5;
+    if (n !== ultimo) {
+      ultimo = n;
+      progAnel.style.setProperty('--p', n / 100);
+      progN.textContent = n + '%';
+      prog.setAttribute('aria-label', 'Página ' + n + '% carregada. Ir para o final');
+      prog.classList.toggle('cheia', n === 100);
     }
-    bat.classList.toggle('oculta', !acabou);
+    prog.classList.toggle('oculta', !acabou);
   }
   addEventListener('scroll', rolagem, { passive: true });
   addEventListener('resize', rolagem);
   rolagem();
 
-  /* ---------- plano estratégico (quiz → WhatsApp) ---------- */
+  /* ---------- plano estratégico (aplicação → WhatsApp) ---------- */
   var quiz = $('#quiz'), etapas = $$('.quiz__etapa', quiz);
-  var passoTxt = $('#quizPasso'), barra = $('#quizBarra'), qPct = $('#quizPct');
+  var passoTxt = $('#quizPasso'), qSeg = $('#quizSeg'), qAnel = $('#quizAnel'), qPct = $('#quizPct');
   var voltar = $('#quizVoltar'), prox = $('#quizProx'), erro = $('#quizErro');
   var fim = $('#quizFim'), resumo = $('#quizResumo'), enviar = $('#quizEnviar');
-  var qBat = $('.plano__bateria');
   var atualQ = 0, total = etapas.length;
+  qSeg.innerHTML = new Array(total + 1).join('<i></i>');
+  var qSegs = $$('i', qSeg);
 
-  function carga(p) {
-    barra.style.width = p + '%';
+  function progresso(p) {
+    qAnel.style.setProperty('--p', p / 100);
     qPct.textContent = p + '%';
-    qBat.style.setProperty('--lvl', p / 100);
+    qSegs.forEach(function (s, i) { s.classList.toggle('on', i < Math.round(p / 100 * total)); });
+    qSeg.classList.toggle('cheia', p === 100);
+    qAnel.classList.toggle('anel--meta', p === 100);
   }
 
   function mostrar(i, focar) {
     atualQ = i;
     etapas.forEach(function (f, j) { f.hidden = j !== i; });
-    passoTxt.textContent = 'Pergunta ' + (i + 1) + ' de ' + total;
+    passoTxt.textContent = Math.round(i / total * 100) + '% carregado · pergunta ' + (i + 1) + ' de ' + total;
     voltar.hidden = i === 0;
     prox.firstChild.textContent = i === total - 1 ? 'Finalizar aplicação ' : 'Continuar ';
     erro.textContent = '';
-    carga(Math.round(i / total * 100));
+    progresso(Math.round(i / total * 100));
     if (focar) { var el = $('input', etapas[i]); if (el) el.focus({ preventScroll: true }); }
   }
 
@@ -201,8 +201,8 @@
     etapas.forEach(function (f) { f.hidden = true; });
     fim.hidden = false;
     quiz.classList.add('terminou');
-    passoTxt.textContent = 'Aplicação completa';
-    carga(100);
+    passoTxt.textContent = '100% carregado · aplicação completa';
+    progresso(100);
     $('#quizFimT').focus({ preventScroll: true });
   }
 
@@ -231,10 +231,14 @@
 
   mostrar(0, false);
 
-  // botões "Montar meu plano": rolam até o quiz e colocam o foco na primeira opção
+  // botões "Garantir minha vaga": rolam até a aplicação; os dos programas já marcam o programa escolhido
   $$('[data-abre-plano]').forEach(function (a) {
     a.addEventListener('click', function (e) {
       e.preventDefault();
+      if (a.dataset.programa) {
+        var r = $('input[name="programa"][value="' + a.dataset.programa + '"]', quiz);
+        if (r) r.checked = true;
+      }
       $('#plano').scrollIntoView({ behavior: reduz ? 'auto' : 'smooth', block: 'start' });
       setTimeout(function () { var el = $('input', etapas[atualQ]); if (el && !quiz.classList.contains('terminou')) el.focus({ preventScroll: true }); }, reduz ? 0 : 700);
     });
@@ -261,15 +265,17 @@
     });
   });
 
-  /* ---------- como funciona: carrossel com bateria ---------- */
+  /* ---------- como funciona: carrossel com barra segmentada + anel ---------- */
   var trilho = $('#slides'), slides = $$('.slide', trilho);
-  slides.forEach(function (s) {
-    var n = s.dataset.pct;
-    s.insertAdjacentHTML('beforeend', '<span class="slide__bat" aria-label="Carga ' + n + '%"><svg viewBox="0 0 40 84" aria-hidden="true"><use href="#bat"/></svg>' + n + '%</span>');
+  slides.forEach(function (s, i) {
+    var n = +s.dataset.pct, segsHtml = '';
+    for (var k = 0; k < slides.length; k++) segsHtml += '<i' + (k <= i ? ' class="on"' : '') + '></i>';
+    s.insertAdjacentHTML('afterbegin', '<span class="seg slide__seg' + (n === 100 ? ' cheia' : '') + '" aria-hidden="true">' + segsHtml + '</span><p class="slide__pct">' + n + '% carregado</p>');
+    s.insertAdjacentHTML('beforeend', '<span class="anel slide__anel" style="--p:0" aria-hidden="true"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50"/><circle cx="60" cy="60" r="50"/></svg></span>');
   });
   var obSlide = new IntersectionObserver(function (en) {
     en.forEach(function (e) {
-      if (e.isIntersecting) e.target.querySelector('.slide__bat').style.setProperty('--lvl', e.target.dataset.pct / 100);
+      if (e.isIntersecting) $('.slide__anel', e.target).style.setProperty('--p', e.target.dataset.pct / 100);
     });
   }, { root: trilho, threshold: .6 });
   slides.forEach(function (s) { obSlide.observe(s); });
@@ -306,7 +312,7 @@
 
   /* ---------- revelar no scroll ---------- */
   if (!reduz && 'IntersectionObserver' in window) {
-    var alvos = $$('.secao .titulo, .lead, .dor, .custo__grade li, .custo__virada, .incluso__lista li, .perfil__col, .modo__intro > *, .modo__lista, .esp__abas, .esp__paineis, .slides, .sobre__fotos, .sobre__txt > *, .duvidas__intro > *, .faq details, .final__grade > *');
+    var alvos = $$('.secao .titulo, .lead, .dor, .custo__grade li, .custo__virada, .modo__intro > *, .modo__lista, .incluso__lista li, .plano-card, .perfil__col, .esp__abas, .esp__paineis, .slides, .sobre__fotos, .sobre__txt > *, .duvidas__intro > *, .faq details, .final__grade > *');
     var obR = new IntersectionObserver(function (en) {
       en.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('visto'); obR.unobserve(e.target); } });
     }, { rootMargin: '0px 0px -8% 0px' });

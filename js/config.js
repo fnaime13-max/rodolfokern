@@ -3,7 +3,7 @@ window.CONFIG = {
   nome: 'Rodolfo Kern',
   // Número que aparece num post do Instagram ("E eu sou: 31 973448826"). É para ele que vão os botões e o plano estratégico.
   whatsapp: '5531973448826',
-  mensagem: 'Olá, Rodolfo! Vim pelo site e quero ativar meu plano.',
+  mensagem: 'Olá, Rodolfo! Vim pelo site e quero saber sobre os programas de acompanhamento.',
   instagram: 'nutri_rodolfokern',
   crn: 'CRN-9 36312',  // conforme a página da equipe do Nítio Mendes
   clinica: 'Clínica Cardim Santana',
