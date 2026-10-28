@@ -746,3 +746,20 @@ body:not(.pronto) .metrica, body:not(.pronto) .hero__cartao { opacity: 0; }
   .hero__retrato { width: min(100%, 290px); }
   .hero__titulo { font-size: clamp(2.1rem, 1.1rem + 2.1vw, 3rem); }
 }
+
+/* v8 · hero ocupa a tela; só o título "Transformações…" aparece cortado no rodapé da primeira tela */
+@media (min-width: 961px) {
+  .hero { min-height: calc(100svh - 58px); padding: 120px 0 28px; align-items: center; }
+  .hero__grade { grid-template-columns: 1.15fr .85fr; gap: clamp(32px, 5vw, 80px); }
+  .hero__titulo { font-size: clamp(2.6rem, 1.4rem + 3vw, 4.3rem); margin-bottom: 22px; }
+  .hero__sub { font-size: clamp(1.15rem, 1.05rem + .35vw, 1.3rem); margin-bottom: 28px; }
+  .hero__acoes { margin-bottom: 20px; }
+  .hero__retrato { width: min(100%, 440px, calc((100svh - 230px) * .8)); }
+  .ad { padding-top: 0; }
+  .ad__topo { margin-bottom: 22px; }
+  .ad .titulo { font-size: clamp(2rem, 1.4rem + 1.8vw, 3rem); }
+}
+@media (min-width: 961px) and (max-height: 800px) {
+  .hero__retrato { width: min(100%, 440px, calc((100svh - 230px) * .8)); }
+  .hero__titulo { font-size: clamp(2.4rem, 1.3rem + 2.6vw, 3.6rem); }
+}
