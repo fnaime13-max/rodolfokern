@@ -137,7 +137,7 @@
 
   /* ---------- plano estratégico (aplicação → WhatsApp) ---------- */
   var quiz = $('#quiz'), etapas = $$('.quiz__etapa', quiz);
-  var passoTxt = $('#quizPasso'), qSeg = $('#quizSeg'), qAnel = $('#quizAnel'), qPct = $('#quizPct');
+  var passoTxt = $('#quizPasso'), qSeg = $('#quizSeg');
   var voltar = $('#quizVoltar'), prox = $('#quizProx'), erro = $('#quizErro');
   var fim = $('#quizFim'), resumo = $('#quizResumo'), enviar = $('#quizEnviar');
   var atualQ = 0, total = etapas.length;
@@ -145,11 +145,8 @@
   var qSegs = $$('i', qSeg);
 
   function progresso(p) {
-    qAnel.style.setProperty('--p', p / 100);
-    qPct.textContent = p + '%';
     qSegs.forEach(function (s, i) { s.classList.toggle('on', i < Math.round(p / 100 * total)); });
     qSeg.classList.toggle('cheia', p === 100);
-    qAnel.classList.toggle('anel--meta', p === 100);
   }
 
   function mostrar(i, focar) {
