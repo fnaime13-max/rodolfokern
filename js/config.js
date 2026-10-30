@@ -6,7 +6,6 @@ window.CONFIG = {
   mensagem: 'Olá, Rodolfo! Vim pelo site e quero saber sobre os programas de acompanhamento.',
   instagram: 'nutri_rodolfokern',
   crn: 'CRN-9 36312',  // conforme a página da equipe do Nítio Mendes
-  clinica: 'Clínica Cardim Santana',
   // Escassez real: deixe null para mostrar só "vagas limitadas". Coloque o número que ele realmente tem (ex.: 6)
   // para mostrar "Restam 6 vagas". A partir do dia indicado, o site já fala das vagas do mês seguinte.
   vagasRestantes: null,

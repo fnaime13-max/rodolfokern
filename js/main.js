@@ -5,7 +5,6 @@
 
   /* ---------- dados do CONFIG ---------- */
   $$('[data-wa]').forEach(function (a) { a.href = linkWA(); });
-  $$('[data-clinica]').forEach(function (el) { el.textContent = CONFIG.clinica; });
   if (CONFIG.crn) {
     $('[data-crn]').textContent = 'Nutricionista · ' + CONFIG.crn;
     $('[data-crn-curto]').textContent = CONFIG.crn;
